@@ -95,7 +95,7 @@ Ce projet est sous licence [Nom de la licence](./LICENSE) - voir le fichier [LIC
 
 ## Contact
 
-Pour toute question ou support, veuillez contacter [ton_email@example.com](mailto:ton_email@example.com).
+Pour toute question ou support, veuillez contacter [ton_email@example.com](mailto:mounirabaddah6@gmail.com).
 
 ---
 
