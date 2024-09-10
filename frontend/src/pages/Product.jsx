@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom'
 import {ShopContext} from '../context/ShopContext'
 import { assets } from '../assets/frontend_assets/assets'
+import RelateProducts from '../components/RelateProducts'
 const Product = () => {
   const {productId}= useParams()
   const {products,currency}=useContext(ShopContext)  
@@ -72,17 +73,19 @@ const Product = () => {
       </div>
       </div>
       {/* Description review Section */}
-      <div className="mt-20">
-        <div className="flex">
-          <b className="border px-5 py-3 text-sm">Description</b>
-          <p className='border px-5 py-3 text-sm'>Review (122)</p>
+        <div className="mt-20">
+          <div className="flex">
+            <b className="border px-5 py-3 text-sm">Description</b>
+            <p className='border px-5 py-3 text-sm'>Review (122)</p>
+          </div>
+          <div className="flex flex-col gap-4 border px-6 py-6 text-sm text-gray-500">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos saepe natus, nemo non ab, placeat cupiditate fuga quae dolor pariatur veritatis doloremque facilis neque similique quasi perspiciatis id quam ad.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos saepe natus, nemo non ab, placeat cupiditate fuga quae dolor pariatur veritatis doloremque facilis neque similique quasi perspiciatis id quam ad.</p>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 border px-6 py-6 text-sm text-gray-500">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos saepe natus, nemo non ab, placeat cupiditate fuga quae dolor pariatur veritatis doloremque facilis neque similique quasi perspiciatis id quam ad.</p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos saepe natus, nemo non ab, placeat cupiditate fuga quae dolor pariatur veritatis doloremque facilis neque similique quasi perspiciatis id quam ad.</p>
-        </div>
+      {/* display related products*/}
+      <RelateProducts category={productData.category} subCategory={productData.subCategory}/>
       </div>
-    </div>
   ) : <div className="opacity-0"></div>
 }
 
