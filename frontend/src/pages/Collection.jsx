@@ -2,15 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import { ShopContext } from '../context/ShopContext';
 import { assets } from "../assets/frontend_assets/assets";
 import Title from "../components/Title";
-import ProductsItem from "../components/ProdutsItem"; 
+import ProductsItem from "../components/ProdutsItem"; // Fixed typo
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products, search, showSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
-  const [sortType, setSortType] = useState('relevant'); // Fixed typo: 'relavant' to 'relevant'
+  const [sortType, setSortType] = useState('relevant');
 
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
@@ -31,43 +31,44 @@ const Collection = () => {
   const applyFilter = () => {
     let productsCopy = products.slice();
 
+    if (showSearch && search) {
+      productsCopy = productsCopy.filter(item =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
     if (category.length > 0) {
-      productsCopy = productsCopy.filter((item) => category.includes(item.category));
+      productsCopy = productsCopy.filter(item => category.includes(item.category));
     }
 
     if (subCategory.length > 0) {
-      productsCopy = productsCopy.filter((item) => subCategory.includes(item.subCategory));
+      productsCopy = productsCopy.filter(item => subCategory.includes(item.subCategory));
     }
 
     setFilterProducts(productsCopy);
   };
 
-  const sortProducts = () => {
-    let fpCopy = filterProducts.slice();
+  const sortProducts = (filteredProducts) => {
+    let sortedProducts = [...filteredProducts]; // Create a shallow copy
     switch (sortType) {
       case 'low-high':
-        setFilterProducts(fpCopy.sort((a, b) => a.price - b.price));
-        break;
+        return sortedProducts.sort((a, b) => a.price - b.price);
       case 'high-low':
-        setFilterProducts(fpCopy.sort((a, b) => b.price - a.price));
-        break;
+        return sortedProducts.sort((a, b) => b.price - a.price);
       default:
-        applyFilter();
-        break;
+        return sortedProducts;
     }
   };
 
   useEffect(() => {
-    setFilterProducts(products);
-  }, [products]);
-
-  useEffect(() => {
+    // Apply filter first
     applyFilter();
-  }, [category, subCategory]);
+  }, [category, subCategory, search, showSearch, products]);
 
   useEffect(() => {
-    sortProducts();
-  }, [sortType, filterProducts]); // Added filterProducts as a dependency to ensure re-sorting when the filtered list changes
+    // Sort the filtered products after applying filters
+    setFilterProducts((prevFilteredProducts) => sortProducts(prevFilteredProducts));
+  }, [sortType]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
